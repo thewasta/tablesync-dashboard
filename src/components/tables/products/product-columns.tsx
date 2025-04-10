@@ -52,6 +52,17 @@ export const getProductColumns = (): ColumnDef<any>[] => [
     cell: ({ getValue }) => (
       <span className="capitalize">{getValue() as string}</span>
     ),
+    filterFn: (row, id, filterValue: string[]) => {
+      // Si no hay categorías seleccionadas, mostrar todas las filas
+      if (!filterValue || filterValue.length === 0) {
+        return true;
+      }
+
+      // Verificar si el ID de la categoría del producto está en el array de categorías seleccionadas
+      const categoryId = row.original.category.id.toString();
+
+      return filterValue.includes(categoryId);
+    },
   },
   {
     id: "actions",

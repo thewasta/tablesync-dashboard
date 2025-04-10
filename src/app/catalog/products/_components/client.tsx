@@ -1,5 +1,5 @@
 "use client";
-
+import { type Selection } from "@heroui/react";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Chip, Input, Select, SelectItem } from "@heroui/react";
@@ -26,6 +26,24 @@ export default function ClientSidePage() {
         label: category.name,
       }))
     : [];
+
+  const handleCategoryChange = (selection: Selection) => {
+    const keys = Array.from(selection);
+
+    setFilter((prev) => {
+      const rest = prev.filter((f) => f.id !== "category");
+
+      if (keys.length === 0) return rest;
+
+      return [
+        ...rest,
+        {
+          id: "category",
+          value: keys,
+        },
+      ];
+    });
+  };
 
   return (
     <>
@@ -67,6 +85,7 @@ export default function ClientSidePage() {
             );
           }}
           selectionMode="multiple"
+          onSelectionChange={handleCategoryChange}
         >
           {(animal) => (
             <SelectItem key={animal.key} className="capitalize">
