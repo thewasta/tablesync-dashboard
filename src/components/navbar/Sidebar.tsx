@@ -79,7 +79,7 @@ export function SideNavBar() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/">
+                  <a href="/catalog/categories">
                     <List />
                     <span>Categorías</span>
                   </a>

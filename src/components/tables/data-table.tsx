@@ -36,6 +36,9 @@ interface DataTableProps<TData> {
     columnFilter: ColumnFiltersState;
     setColumnFilter: Dispatch<SetStateAction<ColumnFiltersState>>;
   };
+  pagination?: {
+    size: number;
+  };
 }
 
 export function GenericTable<TData>({
@@ -45,6 +48,7 @@ export function GenericTable<TData>({
   emptyContent = "No rows to display.",
   ariaLabel = "Table",
   filtering,
+  pagination,
 }: DataTableProps<TData>) {
   const table = useReactTable({
     data,
@@ -54,6 +58,11 @@ export function GenericTable<TData>({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: filtering?.setColumnFilter,
+    initialState: {
+      pagination: {
+        pageSize: pagination?.size || 15,
+      },
+    },
     state: {
       columnFilters: filtering?.columnFilter,
     },
