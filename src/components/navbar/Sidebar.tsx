@@ -87,7 +87,7 @@ export function SideNavBar() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/">
+                  <a href="/catalog/menu">
                     <FileText />
                     <span>Carta Digital</span>
                   </a>

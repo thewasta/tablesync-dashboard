@@ -36,7 +36,7 @@ export function Providers({ children, themeProps }: ProvidersProps) {
             retry: false,
             staleTime: 60 * 3000, // 3 minutes
             refetchInterval: 60 * 3000, // 3 minutes
-            refetchOnWindowFocus: "always",
+            refetchOnWindowFocus: false,
             refetchOnReconnect: true,
             refetchOnMount: false,
             refetchIntervalInBackground: false,

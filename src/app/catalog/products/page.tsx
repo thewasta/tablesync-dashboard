@@ -5,6 +5,8 @@ import {
 } from "@tanstack/react-query";
 import { Metadata } from "next";
 
+import ClientSidePage from "./_components/client";
+
 import { productRetriever } from "@/actions/product.service";
 
 export const metadata: Metadata = {
@@ -15,7 +17,7 @@ export default async function ProductsPage() {
 
   await queryClient.prefetchQuery({
     queryKey: ["products"],
-    queryFn: async () => productRetriever,
+    queryFn: async () => productRetriever(),
   });
 
   return (
@@ -36,7 +38,7 @@ export default async function ProductsPage() {
       </div>
       <div className="flex">{/* Input type="search" />*/}</div>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <div>sampe</div>
+        <ClientSidePage />
       </HydrationBoundary>
     </div>
   );

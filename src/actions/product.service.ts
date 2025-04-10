@@ -1,13 +1,13 @@
 "use server";
 
-import { fetchApi } from "@/lib/api";
-
 export async function productRetriever() {
-  const { data, error } = await fetchApi("get", "/products");
+  console.log("AQUI");
+  const response = await fetch(`https://api.escuelajs.co/api/v1/products`);
+  const data = await response.json();
+  //const { data, error } = await fetchApi("get", "/products");
 
-  if (error) {
-    throw new Error("Error");
-  }
-
+  //if (error) {
+  //throw new Error("Error");
+  //}
   return data;
 }
