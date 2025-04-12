@@ -70,6 +70,7 @@ export function GenericTable<TData>({
 
   return (
     <Table
+      isStriped
       aria-label={ariaLabel}
       bottomContent={
         <div className="flex w-full justify-center">
