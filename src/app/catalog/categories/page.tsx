@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Avatar, Button } from "@heroui/react";
+import { Avatar, Button, useDisclosure } from "@heroui/react";
 import { Plus, PlusIcon, Tags } from "lucide-react";
 import {
   DndContext,
@@ -21,6 +21,7 @@ import { Category, SubCategory } from "../_categories/types";
 
 import CategoryCard from "./_component/category-card";
 import SubCategoryCard from "./_component/sub-category-card";
+import CreateCategory from "./_component/create-category";
 
 const Categories: Category[] = [
   {
@@ -70,13 +71,14 @@ const emptyCategories: Category[] = [];
 
 export default function CategoriesPage() {
   const [initialCategories, setInitialCategories] =
-    useState<Category[]>(Categories);
+    useState<Category[]>(emptyCategories);
 
   const categoryIds = useMemo(
     () => initialCategories.map((c) => c.id),
     [initialCategories],
   );
 
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [categoryInMove, setCategoryInMove] = useState<Category | null>(null);
   const [activeSubCategory, setActiveSubCategory] =
     useState<SubCategory | null>(null);
@@ -96,7 +98,22 @@ export default function CategoriesPage() {
           </Button>
         </div>
       </section>
-      {initialCategories.length > 0 && (
+      {initialCategories.length === 0 ? (
+        <section className="bg-primary/10 shadow-medium rounded-md p-4 flex flex-col items-center m-5">
+          <div className="flex flex-col w-1/2 gap-5 items-center">
+            <Avatar icon={<Tags />} size="lg" />
+            <h4 className="font-medium truncate text-xl">No hay categorías</h4>
+            <p className="font-thin">
+              Comienza creando una nueva categoría para organizar tus productos
+            </p>
+            <Button color="success" onPress={onOpen}>
+              <Plus />
+              Crear primer categoría
+            </Button>
+          </div>
+          <CreateCategory isOpen={isOpen} onOpenChange={onOpenChange} />
+        </section>
+      ) : (
         <DndContext
           onDragEnd={onDragEnd}
           onDragOver={onDragOver}
@@ -123,21 +140,6 @@ export default function CategoriesPage() {
             )}
           </div>
         </DndContext>
-      )}
-      {initialCategories.length === 0 && (
-        <section className="bg-primary/10 shadow-medium rounded-md p-4 flex flex-col items-center m-5">
-          <div className="flex flex-col w-1/2 gap-5 items-center">
-            <Avatar icon={<Tags />} size="lg" />
-            <h4 className="font-medium truncate text-xl">No hay categorías</h4>
-            <p className="font-thin">
-              Comienza creando una nueva categoría para organizar tus productos
-            </p>
-            <Button>
-              <Plus />
-              Crear primer categoría
-            </Button>
-          </div>
-        </section>
       )}
     </div>
   );

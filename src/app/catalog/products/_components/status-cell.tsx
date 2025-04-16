@@ -7,11 +7,12 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@heroui/react";
+import { CellContext } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 
-export function StatusCell() {
+export function StatusCell(props: CellContext<any, any>) {
   const [selectedKeys, setSelectedKeys] = useState<Selection>(
-    new Set(["available"]),
+    new Set([props.row.original.status]),
   );
 
   const selectedValue = useMemo(

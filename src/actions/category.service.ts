@@ -79,9 +79,12 @@ const categories: Category[] = [
 ];
 
 export async function retriever(): Promise<RetrieverResponse> {
-  return Promise.resolve({
-    response: categories,
-  });
+  const response = await fetch(
+    `https://213d3591-94d0-44a0-8241-1d79a8e895b5.mock.pstmn.io/api/categories`,
+  );
+  const data = await response.json();
+
+  return data;
 }
 
 export async function add({

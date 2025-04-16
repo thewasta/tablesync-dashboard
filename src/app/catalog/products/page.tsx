@@ -8,6 +8,7 @@ import { Metadata } from "next";
 import ClientSidePage from "./_components/client";
 
 import { productRetriever } from "@/actions/product.service";
+import { retriever } from "@/actions/category.service";
 
 export const metadata: Metadata = {
   title: "Productos",
@@ -18,6 +19,11 @@ export default async function ProductsPage() {
   await queryClient.prefetchQuery({
     queryKey: ["products"],
     queryFn: async () => productRetriever(),
+  });
+
+  await queryClient.prefetchQuery({
+    queryKey: ["categories"],
+    queryFn: async () => retriever(),
   });
 
   return (

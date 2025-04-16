@@ -6,10 +6,12 @@ import { StatusCell } from "@/app/catalog/products/_components/status-cell";
 
 export const getProductColumns = (): ColumnDef<any>[] => [
   {
-    id: "image",
-    accessorKey: "image",
+    id: "images",
+    accessorKey: "images",
     header: "Imagen",
-    cell: ({ row }) => <Image src={row.original.images[0]} width={45} />,
+    cell: ({ row }) => {
+      return <Image src={(row.getValue("images") as string[])[0]} width={45} />;
+    },
   },
   {
     id: "title",
@@ -66,7 +68,7 @@ export const getProductColumns = (): ColumnDef<any>[] => [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <ButtonGroup>
           <Button isIconOnly variant="ghost">

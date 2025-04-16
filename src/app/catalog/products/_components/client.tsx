@@ -8,25 +8,20 @@ import { Plus } from "lucide-react";
 
 import { productRetriever } from "@/actions/product.service";
 import ProductTable from "@/components/tables/products/product-table";
+import { retriever } from "@/actions/category.service";
 
 export default function ClientSidePage() {
   const { data, isLoading } = useQuery({
     queryKey: ["products"],
-    queryFn: async () => await productRetriever(),
+    queryFn: () => productRetriever(),
+  });
+
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => retriever(),
   });
 
   const [filter, setFilter] = useState<ColumnFiltersState>([]);
-
-  const animals = data
-    ? Array.from(
-        new Map(
-          data.map((product: any) => [product.category.id, product.category]),
-        ).values(),
-      ).map((category: any) => ({
-        key: category.id.toString(),
-        label: category.name,
-      }))
-    : [];
 
   const handleCategoryChange = (selection: Selection) => {
     const keys = Array.from(selection);
@@ -45,6 +40,10 @@ export default function ClientSidePage() {
       ];
     });
   };
+
+  if (!categories) {
+    return null;
+  }
 
   return (
     <>
@@ -73,7 +72,7 @@ export default function ClientSidePage() {
             }}
             isLoading={isLoading}
             isMultiline={true}
-            items={animals || []}
+            items={categories.response}
             label="Categoría"
             labelPlacement="outside"
             placeholder="Seleccionar categoría"
@@ -89,9 +88,9 @@ export default function ClientSidePage() {
             selectionMode="multiple"
             onSelectionChange={handleCategoryChange}
           >
-            {(animal) => (
-              <SelectItem key={animal.key} className="capitalize">
-                {animal.label}
+            {(category) => (
+              <SelectItem key={category.id} className="capitalize">
+                {category.name}
               </SelectItem>
             )}
           </Select>
